@@ -23,6 +23,7 @@ metadata:
     # Here is any link you feel is worth sharing. A confluence page for your component group is a good candidate.
     - url: https://adgear.atlassian.net/l/cp/9kD8ZGRe
       title: SDSP-API Confluence Page
+spec:
   owner: cg-dsp-api
   # Here are the types
   # service: is of course a system running on a workload instance, listening for requests at a particular port over a network, serving response in various payload.
