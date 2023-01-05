@@ -5,16 +5,12 @@ on:
   pull_request:
 jobs:
   rubocop:
-    name: linters / rubocop
     runs-on: ubuntu-latest
     env:
-      RUBY_VERSION: 2.6.10
-      RUBOCOP_VERSION: 1.41.1
+      RUBY_VERSION: 2.7.2
     steps:
       - name: Codebase Checkout
         uses: actions/checkout@v3
-
-      - run: rm Gemfile.lock
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.133.0
@@ -26,12 +22,11 @@ jobs:
       - name: rubocop
         uses: reviewdog/action-rubocop@v2.3.0
         with:
-          rubocop_version: ${{ env.RUBOCOP_VERSION }}
+          rubocop_version: gemfile
           rubocop_extensions: rubocop-performance rubocop-rake rubocop-i18n
           reporter: github-check
           fail_on_error: true
   shellcheck:
-    name: linters / shellcheck
     runs-on: ubuntu-latest
     steps:
       - name: Codebase Checkout
@@ -42,7 +37,6 @@ jobs:
           reporter: github-check
           check_all_files_with_shebangs: true
   hadolint:
-    name: linters / hadolint
     runs-on: ubuntu-latest
     steps:
       - name: Codebase Checkout
