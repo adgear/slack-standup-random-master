@@ -1,0 +1,50 @@
+name: CI
+on:
+  push:
+    branches: [$default-branch]
+  pull_request:
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    env:
+      RUBY_VERSION: 2.7.2
+    steps:
+      - name: Codebase Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.133.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+          cache-version: 1
+
+      - name: rubocop
+        uses: reviewdog/action-rubocop@v2.3.0
+        with:
+          rubocop_version: gemfile
+          rubocop_extensions: rubocop-performance rubocop-rake rubocop-i18n
+          reporter: github-check
+          fail_on_error: true
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Codebase Checkout
+        uses: actions/checkout@v3
+      - name: shellcheck
+        uses: reviewdog/action-shellcheck@v1.16.0
+        with:
+          reporter: github-check
+          check_all_files_with_shebangs: true
+  hadolint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Codebase Checkout
+        uses: actions/checkout@v3
+
+      - name: hadolint
+        uses: reviewdog/action-hadolint@v1
+        with:
+          reporter: github-check
+          fail_on_error: true
+          hadolint_ignore: DL3008
